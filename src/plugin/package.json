@@ -1,0 +1,20 @@
+{
+  "name": "vue-logger-js",
+  "version": "0.1.0",
+  "description": "vue-logger-js",
+  "main": "vue-logger-js.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "vue-logger",
+    "vue-logger-js"
+  ],
+  "author": "wuyaoxing <82565097@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wuyaoxing/vue-logger-js/issues"
+  },
+  "homepage": "https://github.com/wuyaoxing/vue-logger-js"
+}
