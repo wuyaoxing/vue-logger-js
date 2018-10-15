@@ -1,26 +1,33 @@
 export default function VueLogger(Vue, options = {}) {
-    const defaultOptions = {
-        disable: false,
-        reportLevels: ['error']
-    }
-    options = Object.assign(options, defaultOptions)
+  const defaultOptions = {
+    disable: false,
+    reportLevels: ["error"]
+  };
+  const mergeOptions = Object.assign(defaultOptions, options);
 
-    const logger = (...args) => {
-        print('log', args)
-    }
+  const nativeConsole = Object.keys(console);
 
-    logger.levels = Object.keys(console)
+  const print = (level, args) => {
+    if (!mergeOptions.disable && nativeConsole.indexOf(level) > -1)
+      console[level](...args);
+    if (
+      mergeOptions.reportLevels.indexOf(level) > -1 &&
+      mergeOptions.printCallback
+    )
+      mergeOptions.printCallback(level, args);
+  };
 
-    for (const level of logger.levels) {
-        logger[level] = (...args) => {
-            print(level, args)
-        }
-    }
+  const logger = (...args) => {
+    print("log", args);
+  };
 
-    const print = (level, args) => {
-        !options.disable && console[level](...args)
-        if(options.reportLevels.indexOf(level) > -1 && options.printCallback) options.printCallback(level, args)
-    }
+  logger.levels = [...nativeConsole, ...mergeOptions.customLevels];
 
-    Vue.prototype.$logger = logger
+  logger.levels.forEach(level => {
+    logger[level] = (...args) => {
+      print(level, args);
+    };
+  });
+
+  Vue.prototype.$Logger = logger;
 }
